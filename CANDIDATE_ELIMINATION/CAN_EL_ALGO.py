@@ -1,8 +1,4 @@
 
-# coding: utf-8
-
-# In[22]:
-
 
 import csv
 def more_general(h1, h2): 
@@ -14,9 +10,6 @@ def more_general(h1, h2):
 l1 = [1, 2, 3] 
 l2 = [3, 4, 5] 
 list(zip(l1, l2))
-
-
-# In[23]:
 
 
 #min_generalizations
@@ -33,13 +26,8 @@ def min_generalizations(h, x):#find S
 
 
 
-# In[24]:
-
-
 min_generalizations(h=('0', '0'  , 'sunny'), x=('rainy', 'windy', 'cloudy'))
 
-
-# In[25]:
 
 
 def min_specializations(h, domains, x):#g,domains,-ve instance
@@ -57,7 +45,6 @@ def min_specializations(h, domains, x):#g,domains,-ve instance
         
 
 
-# In[26]:
 
 
 min_specializations(h=('?', 'x',),
@@ -73,8 +60,6 @@ with open('enjoy.csv')  as csvFile:
 print(examples)
 
 
-# In[28]:
-
 
 def get_domains(examples):
     d = [set() for i in examples[0]]
@@ -85,8 +70,6 @@ def get_domains(examples):
 get_domains(examples)
 
 
-# In[29]:
-
 
 def generalize_S(x, G, S): 
     S_prev = list(S)
@@ -96,14 +79,11 @@ def generalize_S(x, G, S):
         if not fulfills(x, s):#not(s must be true for x)
             S.remove(s)
             Splus = min_generalizations(s, x)
-#keep only generalizations that have a counterpart in G
+            #keep only generalizations that have a counterpart in G
             S.update([h for h in Splus if any([more_general(g,h)for g in G])])
-#remove hypotheses less specific than any other in S
+            #remove hypotheses less specific than any other in S
             S.difference_update([h for h in S if any([more_general(h, h1)for h1 in S if h != h1])])
     return S
-
-
-# In[30]:
 
 
 def specialize_G(x, domains, G, S): 
@@ -124,8 +104,6 @@ def specialize_G(x, domains, G, S):
 
 
 
-# In[31]:
-
 
 def candidate_elimination(examples):
     domains = get_domains(examples)[:-1]
@@ -138,7 +116,7 @@ def candidate_elimination(examples):
     for xcx in examples:
         i=i+1
         x, cx = xcx[:-1], xcx[-1]
-    # Splitting data into attributes and decisions 
+         # Splitting data into attributes and decisions 
         if cx=='Y': # x is positive example
             G = {g for g in G if fulfills(x, g)}
             #remove any general hyp inconsistent with x
@@ -153,7 +131,6 @@ def candidate_elimination(examples):
     return S,G
 
 
-# In[32]:
 
 
 def enumerateHypothesesBetween_s_g(s, g):
@@ -183,15 +160,5 @@ def enumerateVersionSpace(S, G):
 
 S,G=candidate_elimination(examples) 
 
-
-# In[33]:
-
-
-G
-
-
-# In[34]:
-
-
-S
-
+print(S)
+print(G)
